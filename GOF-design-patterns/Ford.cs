@@ -6,16 +6,7 @@ using System.Threading.Tasks;
 
 namespace GOF_design_patterns
 {
-    public class Ford:BasicCar
+    class Ford
     {
-        public Ford(string m) 
-        {
-            ModelName = m;
-        }
-
-        public override BasicCar Clone()
-        {
-            return (Ford)this.MemberwiseClone();
-        }
     }
 }
