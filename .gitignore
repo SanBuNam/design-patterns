@@ -363,3 +363,11 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .vs/
+
+# Ignore bin and obj folders
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
