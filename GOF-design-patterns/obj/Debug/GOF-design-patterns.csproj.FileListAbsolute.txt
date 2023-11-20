@@ -1,7 +1,0 @@
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\bin\Debug\GOF-design-patterns.exe.config
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\bin\Debug\GOF-design-patterns.exe
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\bin\Debug\GOF-design-patterns.pdb
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\obj\Debug\GOF-design-patterns.csproj.AssemblyReference.cache
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\obj\Debug\GOF-design-patterns.csproj.CoreCompileInputs.cache
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\obj\Debug\GOF-design-patterns.exe
-C:\Users\david.lee\source\repos\GOF-design-patterns\GOF-design-patterns\obj\Debug\GOF-design-patterns.pdb
