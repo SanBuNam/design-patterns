@@ -6,25 +6,157 @@ using System.Threading.Tasks;
 
 namespace GOF_design_patterns
 {
+    // Builders common interface
+    interface IBuilder
+    {
+        void StartUpOperations();
+        void BuildBody();
+        void InsertWheels();
+        void AddHeadlights();
+        void EndOperations();
+        Product GetVehicle();
+    }
+
+    // ConcreteBuilder: Car
+    class Car : IBuilder
+    {
+        private string brandName;
+        private Product product;
+        public Car(string brand)
+        {
+            product = new Product();
+            this.brandName = brand;
+        }
+
+        public void StartUpOperations() 
+        {
+            //Starting with brandname
+            product.Add(string.Format("Car Model name : {0}", this.brandName));
+        }
+
+        public void BuildBody()
+        {
+            product.Add("This is a body of a Car");
+        }
+
+        public void InsertWheels()
+        {
+            product.Add("4 wheels are added");
+        }
+
+        public void AddHeadlights()
+        {
+            product.Add("2 Headlights are added");
+        }
+
+        public void EndOperations()
+        {
+            //Nothing in this case
+        }
+
+        public Product GetVehicle()
+        {
+            return product;
+        }
+    }
+
+
+    // ConcreteBuilder:Motorcycle
+    class MotorCycle : IBuilder
+    {
+        private string brandName;
+        private Product product;
+        public MotorCycle(string brand)
+        {
+            product = new Product();
+            this.brandName = brand;
+        }
+        public void StartUpOperations()
+        {
+            product.Add(string.Format("MotorCycle Model name : {0}", this.brandName));
+        }
+        public void BuildBody()
+        {
+            product.Add("This is a body of a Motorcycle");
+        }
+        public void InsertWheels()
+        {
+            product.Add("2 wheels are added");
+        }
+        public void AddHeadlights()
+        {
+            product.Add("1 Headlights are added");
+        }
+        public void EndOperations()
+        {
+            // Finishing up with brandName
+            product.Add(string.Format("Motorcycle Model name : {0}", this.brandName));
+        }
+        public Product GetVehicle()
+        {
+            return product;
+        }
+    }
+
+    // "Product"
+    class Product
+    {
+        // We can use any data structure that you prefer e.g.List<string> etc.
+        private LinkedList<string> parts;
+        public Product()
+        {
+            parts = new LinkedList<string>();
+        }
+        public void Add(string part)
+        {
+            // Adding parts
+            parts.AddLast(part);
+        }
+        public void Show()
+        {
+            Console.WriteLine("\nProduct completed as below :");
+            foreach(string part in parts)
+            {
+                Console.WriteLine(part);
+            }
+        }
+    }
+
+    // "Director"
+    class Director
+    {
+        IBuilder builder;
+        // A series of steps-in real life, steps are complex.
+        public void Construct(IBuilder builder)
+        {
+            this.builder = builder;
+            builder.StartUpOperations();
+            builder.BuildBody();
+            builder.InsertWheels();
+            builder.AddHeadlights();
+            builder.EndOperations();
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("*** Prototype Pattern ***\n");
-            // Base or Original Copy
-            BasicCar nano_base = new Nano("Green Nano") { Price = 100000 };
-            BasicCar ford_base = new Ford("Yellow Ford") { Price = 500000 };
-            BasicCar bc1;
+            Console.WriteLine("***Builder Pattern Demo***");
+            Director director = new Director();
 
-            // Nano
-            bc1 = nano_base.Clone();
-            bc1.Price = nano_base.Price + BasicCar.SetPrice();
-            Console.WriteLine("Car is: {0}, and it's price is Rs. {1}", bc1.ModelName, bc1.Price);
+            IBuilder b1 = new Car("Ford");
+            IBuilder b2 = new MotorCycle("Honda");
 
-            // Ford
-            bc1 = ford_base.Clone();
-            bc1.Price = ford_base.Price + BasicCar.SetPrice();
-            Console.WriteLine("Car is: {0}, and it's price is Rs. {1}", bc1.ModelName, bc1.Price);
+            // Making Car
+            director.Construct(b1);
+            Product p1 = b1.GetVehicle();
+            p1.Show();
+
+            // Making MotorCycle
+            director.Construct(b2);
+            Product p2 = b2.GetVehicle();
+            p2.Show();
 
             Console.ReadLine();
         }
