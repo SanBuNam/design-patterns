@@ -27,9 +27,9 @@ namespace GOF_design_patterns
             }
         }
     }
-    class ProgramSingleton
+    class SingletonProgram
     {
-        static void MainSingleton(string[] args)
+        static void SingletonMain(string[] args)
         {
             Console.WriteLine("***Singleton Pattern Demo***\n");
             // Console.WriteLine(Singleton.MyInt);
