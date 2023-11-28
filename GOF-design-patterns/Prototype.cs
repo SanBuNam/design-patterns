@@ -46,7 +46,7 @@ namespace GOF_design_patterns.Properties
         }
     }
 
-    class Program
+    class PrototypeProgram
     {
         static void PrototypeMain(string[] args)
         {
