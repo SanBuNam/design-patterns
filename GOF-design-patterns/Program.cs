@@ -6,50 +6,97 @@ using System.Threading.Tasks;
 
 namespace GOF_design_patterns
 {
-    class Rect
+    interface RectInterface
     {
-        public double length;
-        public double width;
+        void AboutRectangle();
+        double CalculateAreaOfRectangle();
     }
-    class Calculator
+
+    class Rect : RectInterface
     {
-        public double GetArea(Rect rect)
+        public double Length;
+        public double Width;
+        public Rect(double l, double w)
         {
-            return rect.length * rect.width;
+            this.Length = l;
+            this.Width = w;
+        }
+        public double CalculateAreaOfRectangle()
+        {
+            return Length * Width;
+        }
+        public void AboutRectangle()
+        {
+            Console.WriteLine("Actually, I am a Rectangle");
         }
     }
-    class Triangle
+
+    interface TriInterface
     {
-        public double baseT;
-        public double height;
-        public Triangle(int b, int h)
+        void AboutTriangle();
+        double CalculateAreaOfTriangle();
+    }
+
+    class Triangle : TriInterface
+    {
+        public double BaseLength;
+        public double Height;
+        public Triangle(double b, double h)
         {
-            this.baseT = b;
-            this.height = h;
+            this.BaseLength = b;
+            this.Height = h;
+        }
+        public double CalculateAreaOfTriangle()
+        {
+            return 0.5 * BaseLength * Height;
+        }
+        public void AboutTriangle()
+        {
+            Console.WriteLine("Actually, I am a Triangle");
         }
     }
-    class CalculatorAdapter
+
+    /* TriangleAdapter is implementing RectInterface.
+        So, it needs to implement all the methods defined in the target interface. */
+    class TriangleAdapter : RectInterface
     {
-        public double GetArea(Triangle triangle)
+        Triangle triangle;
+        public TriangleAdapter(Triangle t)
         {
-            Calculator c = new Calculator();
-            Rect rect = new Rect();
-            //Area of Triangle
-            rect.length = triangle.baseT;
-            rect.width = 0.5 * triangle.height;
-            return c.GetArea(rect);
+            this.triangle = t;
+        }
+        public void AboutRectangle()
+        {
+            triangle.AboutTriangle();
+        }
+        public double CalculateAreaOfRectangle()
+        {
+            return triangle.CalculateAreaOfTriangle();
         }
     }
+
 
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("*** Adapter pattern demo ***\n");
-            CalculatorAdapter cal = new CalculatorAdapter();
+            Console.WriteLine("*** Adapter Pattern Modified Demo ***\n");
+            // CalculatorAdapter cal = new CalculatorAdapter();
+            Rect r = new Rect(20, 10);
+            Console.WriteLine("Area of Rectangle is :{0} Square unit", r.CalculateAreaOfRectangle());
             Triangle t = new Triangle(20, 10);
-            Console.WriteLine("Area of Triangle is " + cal.GetArea(t) + " Square unit");
+            Console.WriteLine("Area of Triangle is :{0} Square unit", t.CalculateAreaOfTriangle());
+            RectInterface adapter = new TriangleAdapter(t);
+            // Passing a Triangle instead of a Rectangle
+            Console.WriteLine("Area of Triangle using the triangle adapter is :{0} Square unit", GetArea(adapter));
             Console.ReadKey();
+        }
+
+        /* GetArea(RectInterface r) method does not know that through TriangleAdapter, it is getting a Triangle instead of Rectangle */
+        static double GetArea(RectInterface r)
+        {
+            r.AboutRectangle();
+            return r.CalculateAreaOfRectangle();
         }
     }
 }
