@@ -6,65 +6,38 @@ using System.Threading.Tasks;
 
 namespace GOF_design_patterns
 {
-    abstract class Component
+    class Rect
     {
-        public abstract void MakeHouse();
+        public double length;
+        public double width;
     }
-
-    class ConcreteComponent : Component
+    class Calculator
     {
-        public override void MakeHouse()
+        public double GetArea(Rect rect)
         {
-            Console.WriteLine("Original House is complete. It is closed for modification.");
-        }
-    }
-
-    abstract class AbstractDecorator : Component
-    {
-        protected Component com;
-        public void SetTheComponent(Component c)
-        {
-            com = c;
-        }
-        public override void MakeHouse()
-        {
-            if (com != null)
-            {
-                com.MakeHouse(); // Delegating the task
-            }
+            return rect.length * rect.width;
         }
     }
-
-    class ConcreteDecoratorEx1 : AbstractDecorator
+    class Triangle
     {
-        public override void MakeHouse()
+        public double baseT;
+        public double height;
+        public Triangle(int b, int h)
         {
-            base.MakeHouse();
-            Console.WriteLine("***Using a decorator***");
-            // Decorating now.
-            AddFloor();
-            // You can put additional stuff as per your needs.
-        }
-        private void AddFloor()
-        {
-            Console.WriteLine("I am making an additional floor on top of it.");
+            this.baseT = b;
+            this.height = h;
         }
     }
-
-    class ConcreteDecoratorEx2 : AbstractDecorator
+    class CalculatorAdapter
     {
-        public override void MakeHouse()
+        public double GetArea(Triangle triangle)
         {
-            Console.WriteLine("");
-            base.MakeHouse();
-            Console.WriteLine("**Using another decorator***");
-            // Decorating now.
-            PaintTheHouse();
-            // You can add additional stuffs as per your need
-        }
-        private void PaintTheHouse()
-        {
-            Console.WriteLine("Now I am painting the house.");
+            Calculator c = new Calculator();
+            Rect rect = new Rect();
+            //Area of Triangle
+            rect.length = triangle.baseT;
+            rect.width = 0.5 * triangle.height;
+            return c.GetArea(rect);
         }
     }
 
@@ -72,18 +45,10 @@ namespace GOF_design_patterns
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("***Decorator pattern Demo***\n");
-            ConcreteComponent cc = new ConcreteComponent();
-
-            ConcreteDecoratorEx1 decorator1 = new ConcreteDecoratorEx1();
-            decorator1.SetTheComponent(cc);
-            decorator1.MakeHouse();
-
-            ConcreteDecoratorEx2 decorator2 = new ConcreteDecoratorEx2();
-            //Adding results from decorator1
-            decorator2.SetTheComponent(decorator1);
-            decorator2.MakeHouse();
-
+            Console.WriteLine("*** Adapter pattern demo ***\n");
+            CalculatorAdapter cal = new CalculatorAdapter();
+            Triangle t = new Triangle(20, 10);
+            Console.WriteLine("Area of Triangle is " + cal.GetArea(t) + " Square unit");
             Console.ReadKey();
         }
     }
