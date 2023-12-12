@@ -50,8 +50,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CreationalPatterns\Prototype.cs" />
     <Compile Include="CreationalPatterns\Singleton.cs" />
+    <Compile Include="StructuralPatterns\Adapter.cs" />
     <Compile Include="StructuralPatterns\Decorator.cs" />
     <Compile Include="StructuralPatterns\Proxy.cs" />
+    <Compile Include="StructuralPatterns\RobotFacade.cs" />
+    <Compile Include="StructuralPatterns\RobotParts\RobotBody.cs" />
+    <Compile Include="StructuralPatterns\RobotParts\RobotColor.cs" />
+    <Compile Include="StructuralPatterns\RobotParts\RobotHands.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
