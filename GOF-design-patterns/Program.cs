@@ -8,107 +8,57 @@ using GOF_design_patterns.StructuralPatterns;
 
 namespace GOF_design_patterns
 {
-    //Implementor
-    public interface IState
+    interface IOriginalInterface
     {
-        void MoveState();
+        void Accept(IVisitor visitor);
     }
-    //ConcreteImplementor-1
-    public class OnState : IState
+
+    class MyClass : IOriginalInterface
     {
-        public void MoveState()
-        {
-            Console.Write("On State");
-        }
-    }
-    //ConcreteImplementor-2
-    public class OffState : IState
-    {
-        public void MoveState()
-        {
-            Console.WriteLine("Off State");
-        }
-    }
-    //Abstraction
-    public abstract class ElectronicGoods
-    {
-        //Composition - implementor
-        protected IState state;
-        //Alternative approach to properties:
-        //we can also pass an implementor (as input argument) inside a constructor.
-        //public ElectronicGoods(IState state)
-        //{
-        //    this.state = state;
-        //}
-        public IState State
+        private int myInt = 5; // Initial or default value
+        public int MyInt
         {
             get
             {
-                return state;
+                return myInt;
             }
             set
             {
-                state = value;
+                myInt = value;
             }
         }
-        abstract public void MoveToCurrentState();
-    }
-    //Refined Abstraction
-    public class Television : ElectronicGoods
-    {
-        //public Television(IState state) : base(state)
-        //{
-        //}
-        /*Implementation specific:
-         We are delegating the implementation to the Implementor object
-         */
-        public override void MoveToCurrentState()
+        public void Accept(IVisitor visitor)
         {
-            Console.Write("\n Television is functioning at : ");
-            state.MoveState();
+            Console.WriteLine("Initial value of the integer: {0}", myInt);
+            visitor.Visit(this);
+            Console.WriteLine("\nValue of the integer now: {0}", myInt);
         }
     }
-    public class VCD : ElectronicGoods
+
+    interface IVisitor
     {
-        //public VCD(IState state) : base(state)
-        //{
-        //}
-        /*Implementation specific:
-          We are delegating the implementation to the Implementor object
-         */
-        public override void MoveToCurrentState()
+        void Visit(MyClass myClassElement);
+    }
+
+    class Visitor : IVisitor
+    {
+        public void Visit(MyClass myClassElement)
         {
-            Console.WriteLine("\n VCD is functioning at : ");
-            state.MoveState();
+            Console.WriteLine("Visitor is trying to change the integer value.");
+            myClassElement.MyInt = 100;
+            Console.WriteLine("Exiting from Visitor.");
         }
     }
+
 
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("***Bridge Pattern Demo***");
-            Console.WriteLine("\nDealing with a Television:");
-            //ElectronicGoods eItem = new Television(presentState);
-            ElectronicGoods eItem = new Television();
-            IState presentState = new OnState();
-            eItem.State = presentState;
-            eItem.MoveToCurrentState();
-            //Verifying Off state of the Television now
-            presentState = new OffState();
-            //eItem = new Television(presentState);
-            eItem.State = presentState;
-            eItem.MoveToCurrentState();
-            Console.WriteLine("\n \n Dealing with a VCD:");
-            presentState = new OnState();
-            //eItem = new VCD(presentState);
-            eItem = new VCD();
-            eItem.State = presentState;
-            eItem.MoveToCurrentState();
-            presentState = new OffState();
-            //eItem = new VCD(presentState);
-            eItem.State = presentState;
-            eItem.MoveToCurrentState();
+            Console.WriteLine("***Visitor Pattern Demo***\n");
+            IVisitor visitor = new Visitor();
+            MyClass myClass = new MyClass();
+            myClass.Accept(visitor);
             Console.ReadLine();
         }
     }
