@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StructuralPatterns\Bridge.cs" />
     <Compile Include="CreationalPatterns\AbstractFactory.cs" />
     <Compile Include="CreationalPatterns\Builder.cs" />
     <Compile Include="CreationalPatterns\Factory.cs" />
@@ -63,6 +64,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BehavioralPatterns\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
