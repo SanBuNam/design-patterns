@@ -51,6 +51,7 @@
     <Compile Include="CreationalPatterns\Prototype.cs" />
     <Compile Include="CreationalPatterns\Singleton.cs" />
     <Compile Include="StructuralPatterns\Adapter.cs" />
+    <Compile Include="StructuralPatterns\Composition.cs" />
     <Compile Include="StructuralPatterns\Decorator.cs" />
     <Compile Include="StructuralPatterns\Flyweight.cs" />
     <Compile Include="StructuralPatterns\Proxy.cs" />
