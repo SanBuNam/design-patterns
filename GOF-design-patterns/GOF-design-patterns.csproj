@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BehavioralPatterns\Observer.cs" />
     <Compile Include="BehavioralPatterns\Visitor.cs" />
     <Compile Include="StructuralPatterns\Bridge.cs" />
     <Compile Include="CreationalPatterns\AbstractFactory.cs" />
