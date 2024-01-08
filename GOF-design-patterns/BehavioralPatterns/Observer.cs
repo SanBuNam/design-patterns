@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using GOF_design_patterns.StructuralPatterns;
 
-namespace GOF_design_patterns
+namespace GOF_design_patterns.BehavioralPatterns
 {
     interface IObserver
     {
@@ -21,7 +19,7 @@ namespace GOF_design_patterns
         }
         public void Update(int i)
         {
-            Console.WriteLine("{0} has received an alert: Someone has updated myValue in Subject to: {1}", nameOfObserver,i);
+            Console.WriteLine("{0} has received an alert: Someone has updated myValue in Subject to: {1}", nameOfObserver, i);
         }
     }
     class ObserverType2 : IObserver
@@ -36,14 +34,12 @@ namespace GOF_design_patterns
             Console.WriteLine("{0} notified: myValue in Subject at present: {1}", nameOfObserver, i);
         }
     }
-
     interface ISubject
     {
         void Register(IObserver o);
         void Unregister(IObserver o);
         void NotifyRegisteredUsers(int i);
     }
-
     class Subject:ISubject
     {
         List<IObserver> observerList = new List<IObserver>();
@@ -71,38 +67,36 @@ namespace GOF_design_patterns
         }
         public void NotifyRegisteredUsers(int i)
         {
-            foreach(IObserver observer in observerList)
+            foreach (IObserver observer in observerList)
             {
                 observer.Update(i);
             }
         }
     }
-
-    class Program
+    
+    class ObserverProgram
     {
         static void Main(string[] args)
         {
             Console.WriteLine("***Observer Pattern Demo***\n");
-            //We have 3 observers-2 of them are ObserverType1, 1 of them is of ObserverType2
+            
+            //From 3 observers, 2 of them are ObserverType1, 1 of them is ObserverType2
             IObserver myObserver1 = new ObserverType1("Roy");
             IObserver myObserver2 = new ObserverType1("Kevin");
             IObserver myObserver3 = new ObserverType2("Bose");
+
+            //Registering the observer
             Subject subject = new Subject();
-            //Registering the observers-Roy,Kevin,Bose
             subject.Register(myObserver1);
             subject.Register(myObserver2);
             subject.Register(myObserver3);
-            Console.WriteLine(" Setting Flag = 5 ");
             subject.Flag = 5;
-            //Unregistering an observer(Roy))
+
             subject.Unregister(myObserver1);
-            //No notification this time Roy. Since it is unregistered.
-            Console.WriteLine("\n Setting Flag = 50 ");
             subject.Flag = 50;
-            //Roy is registering himself again
+
             subject.Register(myObserver1);
-            Console.WriteLine("\n Setting Flag = 100 ");
-            subject.Flag = 100;
+            subject.Flag = 50;
             Console.ReadKey();
         }
     }
