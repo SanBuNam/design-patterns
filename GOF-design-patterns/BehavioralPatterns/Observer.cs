@@ -76,7 +76,7 @@ namespace GOF_design_patterns.BehavioralPatterns
     
     class ObserverProgram
     {
-        static void Main(string[] args)
+        static void ObserverMain(string[] args)
         {
             Console.WriteLine("***Observer Pattern Demo***\n");
             
