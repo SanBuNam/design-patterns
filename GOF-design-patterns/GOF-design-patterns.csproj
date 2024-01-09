@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BehavioralPatterns\Observer.cs" />
+    <Compile Include="BehavioralPatterns\Strategy\Context.cs" />
+    <Compile Include="BehavioralPatterns\Strategy\FirstChoice.cs" />
+    <Compile Include="BehavioralPatterns\Strategy\IChoice.cs" />
+    <Compile Include="BehavioralPatterns\Strategy\SecondChoice.cs" />
     <Compile Include="BehavioralPatterns\Visitor.cs" />
     <Compile Include="StructuralPatterns\Bridge.cs" />
     <Compile Include="CreationalPatterns\AbstractFactory.cs" />
