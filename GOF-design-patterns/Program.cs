@@ -12,61 +12,136 @@ namespace GOF_design_patterns
     public interface ICommand
     {
         void Do();
+        void UnDo();
     }
-    public class MyUndoCommand : ICommand
+    public class AdditionalCommand : ICommand
     {
-        private Receiver receiver;
-        public MyUndoCommand(Receiver recv)
+        private IReceiver receiver;
+        public AdditionalCommand(IReceiver recv)
         {
             receiver = recv;
         }
-        public void Do()
+        public void Do() 
         {
-            // Perform any optional task prior to Undo
-            receiver.OptionalTaskPriorToUndo();
-            // Call Undo in receiver now
-            receiver.PerformUndo();
+            receiver.OptionalTasksPriorProcessing();
+            receiver.Add2WithNumber();
+            receiver.OptionalTasksPostProcessing();
+        }
+        public void UnDo()
+        {
+            Console.WriteLine("Trying undoing addition...");
+            receiver.Remove2FromNumber();
+            Console.WriteLine("Undo request processed.");
         }
     }
-    public class MyRedoCommand : ICommand
+
+    public interface IReceiver
     {
-        private Receiver receiver;
-        public MyRedoCommand(Receiver recv)
-        {
-            receiver = recv;
-        }
-        public void Do()
-        {
-            // Perform any optional task prior to ReDo
-            receiver.OptionalTaskPriorToRedo();
-            // Call ReDo in receiver now
-            receiver.PerformRedo();
-        }
+        void Add2WithNumber();
+        void Remove2FromNumber();
+        void OptionalTasksPriorProcessing();
+        void OptionalTasksPostProcessing();
     }
-    // Receiver Class
-    public class Receiver
+
+    public class Receiver1 : IReceiver
     {
-        public void PerformUndo()
+        int myNumber;
+        public int MyNumber
         {
-            Console.WriteLine("Executing-MyUndoCommand");
+            get
+            {
+                return myNumber;
+            }
+            set
+            {
+                myNumber = value;
+            }
         }
-        public void PerformRedo()
+        public Receiver1()
         {
-            Console.WriteLine("Executing-MyRedoCommand");
+            myNumber = 10;
+            Console.WriteLine("Receiver1 initialized with {0}", myNumber);
+            Console.WriteLine("The objects of receiver1 cannot set beyond {0}", myNumber);
         }
-        //Optional method-If you want to perform any prior tasks before Undo.
-        public void OptionalTaskPriorToUndo()
+        public void OptionalTasksPriorProcessing()
         {
-            Console.WriteLine("Executing-Optional Tasks prior to execute undo command");
+            Console.WriteLine("Receiver1.OptionalTaskPriorProcessing");
         }
-        //Optional method-If you want to peform my prior tasks before Redo.
-        public void OptionalTaskPriorToRedo()
+        public void OptionalTasksPostProcessing()
         {
-            Console.WriteLine("Executing-Optional Tasks prior to execute redo command");
+            Console.WriteLine("Receiver1.OptionalTaskPostProcessing\n");
+        }
+        public void Add2WithNumber()
+        {
+            int presentNumber = this.myNumber;
+            this.myNumber = this.myNumber + 2;
+            Console.WriteLine("{0}+2={1}", presentNumber, this.myNumber);
+        }
+        public void Remove2FromNumber()
+        {
+            int presentNumber = this.MyNumber;
+            if (presentNumber > 10)
+            {
+                this.MyNumber = this.MyNumber - 2;
+                Console.WriteLine("{0}-2={1}", presentNumber, this.MyNumber);
+            }
+            else
+            {
+                Console.WriteLine("Nothing more to undo...");
+            }
         }
     }
-    // Invoker class
-    public class Invoke
+
+    public class Receiver2 : IReceiver
+    {
+        int myNumber;
+        public int MyNumber
+        {
+            get
+            {
+                return myNumber;
+            }
+            set
+            {
+                myNumber = value;
+            }
+        }
+        public Receiver2()
+        {
+            myNumber = 75;
+            Console.WriteLine("Receiver2 initialized with {0}", myNumber);
+            Console.WriteLine("The objects of receiver2 cannot set beyond {0}", myNumber);
+        }
+        public void OptionalTasksPriorProcessing()
+        {
+            Console.WriteLine("Receiver2.OptionalTaskPriorProcessing");
+        }
+        public void OptionalTasksPostProcessing()
+        {
+            Console.WriteLine("Receiver2.OptionalTaskPostProcessing");
+        }
+        public void Add2WithNumber()
+        {
+            int presentNumber = this.MyNumber;
+            this.MyNumber = this.MyNumber + 2;
+            Console.WriteLine("{0}+2={1}", presentNumber, this.MyNumber);
+        }
+        public void Remove2FromNumber()
+        {
+            int presentNumber = this.MyNumber;
+            if (presentNumber > 75)
+            {
+                this.myNumber = this.myNumber - 2;
+                Console.WriteLine("{0}-2={1}", presentNumber, this.MyNumber);
+            }
+            else
+            {
+                Console.WriteLine("Nothing more to undo...");
+            }
+        }
+    }
+
+    public class Invoker
     {
         ICommand commandToBePerformed;
         public void SetCommand(ICommand command)
@@ -77,23 +152,38 @@ namespace GOF_design_patterns
         {
             commandToBePerformed.Do();
         }
+        public void UndoCommand()
+        {
+            commandToBePerformed.UnDo();
+        }
     }
+
     class CommandClientProgram
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("***Command Pattern Demo***\n");
-            /*Client holds both the Invoker and Command Objects*/
-            Invoke invoker = new Invoke();
-            Receiver intendedreceiver = new Receiver();
-
-            MyUndoCommand undoCmd = new MyUndoCommand(intendedreceiver);
-            invoker.SetCommand(undoCmd);
+            Console.WriteLine("***Command Pattern Q&As***");
+            Console.WriteLine("***A simple demo with undo supported operations * **\n");
+            
+            Invoker invoker = new Invoker();
+            IReceiver intendedreceiver = new Receiver1();
+            ICommand currentCmd = new AdditionalCommand(intendedreceiver);
+            invoker.SetCommand(currentCmd);
+            
+            invoker.ExecuteCommand();
             invoker.ExecuteCommand();
 
-            MyRedoCommand redoCmd = new MyRedoCommand(intendedreceiver);
-            invoker.SetCommand(redoCmd);
+            invoker.UndoCommand();
+            invoker.UndoCommand();
+            invoker.UndoCommand();
+
+            Console.WriteLine("\nTesting receiver-Receiver2");
+            intendedreceiver = new Receiver2();
+            currentCmd = new AdditionalCommand(intendedreceiver);
+            invoker.SetCommand(currentCmd);
             invoker.ExecuteCommand();
+            invoker.UndoCommand();
+            invoker.UndoCommand();
             Console.ReadKey();
         }
     }
