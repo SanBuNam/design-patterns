@@ -52,6 +52,7 @@
     <Compile Include="BehavioralPatterns\TemplateMethod\BasicEngineering.cs" />
     <Compile Include="BehavioralPatterns\TemplateMethod\ComputerScience.cs" />
     <Compile Include="BehavioralPatterns\TemplateMethod\Electronics.cs" />
+    <Compile Include="BehavioralPatterns\TemplateMethod\Template.cs" />
     <Compile Include="BehavioralPatterns\Visitor.cs" />
     <Compile Include="StructuralPatterns\Bridge.cs" />
     <Compile Include="CreationalPatterns\AbstractFactory.cs" />
