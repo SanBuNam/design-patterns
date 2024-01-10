@@ -158,7 +158,7 @@ namespace GOF_design_patterns.BehavioralPatterns
 
     class CommandClientProgram
     {
-        static void Main(string[] args)
+        static void CommandClientMain(string[] args)
         {
             Console.WriteLine("***Command Pattern Q&As***");
             Console.WriteLine("***A simple demo with undo supported operations * **\n");
