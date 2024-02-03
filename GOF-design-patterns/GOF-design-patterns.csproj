@@ -51,6 +51,7 @@
     <Compile Include="BehavioralPatterns\Iterator\IIterator.cs" />
     <Compile Include="BehavioralPatterns\Iterator\IteratorPattern.cs" />
     <Compile Include="BehavioralPatterns\Iterator\ScienceIterator.cs" />
+    <Compile Include="BehavioralPatterns\Memento.cs" />
     <Compile Include="BehavioralPatterns\Observer.cs" />
     <Compile Include="BehavioralPatterns\Strategy\Context.cs" />
     <Compile Include="BehavioralPatterns\Strategy\FirstChoice.cs" />
