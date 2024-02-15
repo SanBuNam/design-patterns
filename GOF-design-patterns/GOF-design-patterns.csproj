@@ -51,6 +51,7 @@
     <Compile Include="BehavioralPatterns\Iterator\IIterator.cs" />
     <Compile Include="BehavioralPatterns\Iterator\IteratorPattern.cs" />
     <Compile Include="BehavioralPatterns\Iterator\ScienceIterator.cs" />
+    <Compile Include="BehavioralPatterns\Mediator.cs" />
     <Compile Include="BehavioralPatterns\Memento.cs" />
     <Compile Include="BehavioralPatterns\Observer.cs" />
     <Compile Include="BehavioralPatterns\State.cs" />
@@ -84,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="resource\GOF_design_patterns.pdf" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
