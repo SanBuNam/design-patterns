@@ -103,7 +103,7 @@ namespace GOF_design_patterns.BehavioralPatterns
 
     class ChainOfResponsibilityProgram
     {
-        static void Main(string[] vs)
+        static void ChainOfResponsibilityMain(string[] vs)
         {
             Console.WriteLine("\n *** Chain of Responsibility Pattern ***\n");
             /* Making the chain :
