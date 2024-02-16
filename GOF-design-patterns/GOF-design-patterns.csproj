@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalPatterns\SimpleFactory.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\Arts.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\ISubjects.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\Science.cs" />
@@ -89,8 +90,6 @@
     <None Include="App.config" />
     <None Include="resource\GOF_design_patterns.pdf" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AdditionalPatterns\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
