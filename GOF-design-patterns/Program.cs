@@ -11,237 +11,92 @@ using GOF_design_patterns.BehavioralPatterns.Iterator;
 namespace GOF_design_patterns
 {
     /*
-    Interpreter pattern
-    Given a language, define a representation for its grammer along with an interpreter that uses the representation to interpret sentences in the language.
-    This pattern deals with evaluating sentences in a language. You need to define a grammer to represent the language, and then the interpreter will deal with that grammer.
-    For example, in this example, you will transform a three-digit integer that is input into its equivalent word form (in other words, a string).
+     Simple Factory Pattern
+     : Create an object without exposing the instantiation logic to the client.
+     Concept
+     : In object-oriented programming, a factory is such an object that can create other objects.
+       A factory can be invoked in many different ways but most often, it uses a method that can return objects with varying prototypes.
+       Any subroutine that can help us to create these new objects, can be considered as a factory.
+       Most importantly, it will help you to abstract the process of object creation from the consumers of the applications.
      */
-    public class Context
+    public interface IAnimalSimple
     {
-        //We will interpret an integer
-        private int getInput;
-        private string getStringInput;
-        
-        //We are printing it in the word form i.e. in String representation
-        private string setOutput;
-        
-        //Flag-whether it is a valid input or not
-        private bool canProceed = false;
-        public bool CanProceed
+        void Speak();
+        void Action();
+    }
+    public class DogSimple : IAnimalSimple
+    {
+        public void Speak()
         {
-            get { return canProceed; }
+            Console.WriteLine("Dog says: Bow-Wow.");
         }
-
-        //Using properties to get the input(readonly)
-        public int GetInput
+        public void Action()
         {
-            get { return getInput; }
-            // set {input = value;}
+            Console.WriteLine("Dogs prefer barking...");
         }
-
-        //Using properties to get and set output
-        public string SetOutput
+    }
+    public class TigerSimple : IAnimalSimple
+    {
+        public void Speak()
         {
-            get { return setOutput; }
-            set { setOutput = value; }
+            Console.WriteLine("Tiger says: Halum.");
         }
-
-        //Our constructor
-        public Context(string input)
+        public void Action()
         {
-            this.getStringInput = input;
-        }
-
-        //We'll check wheather it is a valid input that lies between 100 and 999
-        public int ValidateUserInputBeforeProceedings(string inputString)
-        {
-            if (int.TryParse(inputString, out getInput))
-            {
-                Console.WriteLine("You have entered {0}", getInput);
-                //Some basic validations
-                if ((getInput < 100) || (getInput > 999))
-                {
-                    Console.WriteLine("Please enter a number between 100 and 999 and try again.");
-                    //Just returning a 4-digit negative number to indicate a wrong input
-                    return -9999;
-                }
-            }
-            canProceed = true;
-            return getInput;
+            Console.WriteLine("Tigers prefer hunting...");
         }
     }
 
-    //abstract class-will hold the common code
-    abstract class InputExpression
+    public abstract class ISimpleFactory
     {
-        public abstract void Interpret(Context context);
+        public abstract IAnimalSimple CreateAnimal();
     }
 
-    class HundredExpression : InputExpression
+    public class SimpleFactory: ISimpleFactory
     {
-        public override void Interpret(Context context)
+        public override IAnimalSimple CreateAnimal()
         {
-            if (context.CanProceed)
+            IAnimalSimple intendedAnimal = null;
+            Console.WriteLine("Enter your choice(0 for Dog, 1 for Tiger)");
+            string b1 = Console.ReadLine();
+            int input;
+            if (int.TryParse(b1, out input))
             {
-                int hundreds = context.GetInput / 100;
-                switch (hundreds)
+                Console.WriteLine("You have entered {0}", input);
+                switch (input)
                 {
+                    case 0:
+                        intendedAnimal = new DogSimple();
+                        break;
                     case 1:
-                        context.SetOutput += "One Hundred";
-                        break;
-                    case 2:
-                        context.SetOutput += "Two Hundred";
-                        break;
-                    case 3:
-                        context.SetOutput += "Three Hundred";
-                        break;
-                    case 4:
-                        context.SetOutput += "Four Hundred";
-                        break;
-                    case 5:
-                        context.SetOutput += "Five Hundred";
-                        break;
-                    case 6:
-                        context.SetOutput += "Six Hundred";
-                        break;
-                    case 7:
-                        context.SetOutput += "Seven Hundred";
-                        break;
-                    case 8:
-                        context.SetOutput += "Eight Hundred";
-                        break;
-                    case 9:
-                        context.SetOutput += "Nine Hundred";
+                        intendedAnimal = new TigerSimple();
                         break;
                     default:
-                        context.SetOutput += "*";
-                        break;
-                }
+                        Console.WriteLine("You must enter either 0 or 1");
+                        //We'll throw a runtime exception for any other choices.
+                        throw new ApplicationException(String.Format("Unknown Animal cannot be instantiated"));
+                }   
             }
-        }
-    }
-    
-    class TensExpression : InputExpression
-    {
-        public override void Interpret(Context context)
-        {
-            if (context.CanProceed)
-            {
-                int tens = context.GetInput % 100;
-                //Process further by dividing it by 10
-                tens = tens / 10;
-                switch(tens)
-                {
-                    case 1:
-                        context.SetOutput += "One Ten and";
-                        break;
-                    case 2:
-                        context.SetOutput += "Twenty";
-                        break;
-                    case 3:
-                        context.SetOutput += "Thirty";
-                        break;
-                    case 4:
-                        context.SetOutput += "Forty";
-                        break;
-                    case 5:
-                        context.SetOutput += "Fifty";
-                        break;
-                    case 6:
-                        context.SetOutput += "Sixty";
-                        break;
-                    case 7:
-                        context.SetOutput += "Seventy";
-                        break;
-                    case 8:
-                        context.SetOutput += "Eighty";
-                        break;
-                    case 9:
-                        context.SetOutput += "Ninety";
-                        break;
-                    default:
-                        context.SetOutput += String.Empty;
-                        break;
-                }
-            }
+            return intendedAnimal;
         }
     }
 
-    class UnitExpression : InputExpression
-    {
-        public override void Interpret(Context context)
-        {
-            if (context.CanProceed)
-            {
-                int units = context.GetInput % 100;
-                //Process further to get the unit digit
-                units = units % 10;
-                switch (units)
-                {
-                    case 1:
-                        context.SetOutput += "One";
-                        break;
-                    case 2:
-                        context.SetOutput += "Two";
-                        break;
-                    case 3:
-                        context.SetOutput += "Three";
-                        break;
-                    case 4:
-                        context.SetOutput += "Four";
-                        break;
-                    case 5:
-                        context.SetOutput += "Five";
-                        break;
-                    case 6:
-                        context.SetOutput += "Six";
-                        break;
-                    case 7:
-                        context.SetOutput += "Seven";
-                        break;
-                    case 8:
-                        context.SetOutput += "Eight";
-                        break;
-                    case 9:
-                        context.SetOutput += "Nine";
-                        break;
-                    default:
-                        context.SetOutput += String.Empty;
-                        break;
-                }
-            }
-        }
-    }
-
-    //Client Class
+    //A client is intereted to get an animal who can speak and perform an action.
     class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            Console.WriteLine("*** Interpreter Pattern Demo ***\n");
-            string inputString;
-            //int userInput;
-            Console.WriteLine("Enter a 3 digit number only (i.e. 100 to 999)");
-            inputString = Console.ReadLine();
-            //Context context = new Context(userInput);
-            Context context = new Context(inputString);
-            //Some basic validations before we proceed
-            //Checking whether we can parse the string as an integer
-            if (context.ValidateUserInputBeforeProceedings(inputString) != -9999)
-            {
-                // Build the 'parse tree'
-                List<InputExpression> expTree = new List<InputExpression>();
-                expTree.Add(new HundredExpression());
-                expTree.Add(new TensExpression());
-                expTree.Add(new UnitExpression());
-                // Interpret the valid input
-                foreach (InputExpression inputExp in expTree)
-                {
-                    inputExp.Interpret(context);
-                }
-                Console.WriteLine("Original Input {0} is interpreted as {1}", context.GetInput, context.SetOutput);
-            }
-            Console.ReadLine();
+            Console.WriteLine("*** Simple Factory Pattern Demo ***\n");
+            IAnimalSimple preferredType = null;
+            ISimpleFactory simpleFactory = new SimpleFactory();
+            #region The code region that will vary based on users preference
+            preferredType = simpleFactory.CreateAnimal();
+            #endregion
+            #region The codes that do not change frequently
+            preferredType.Speak();
+            preferredType.Action();
+            #endregion
+            Console.ReadKey();
         }
     }
 }
