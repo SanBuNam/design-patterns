@@ -46,6 +46,7 @@
     <Compile Include="BehavioralPatterns\Aggregate\Arts.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\ISubjects.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\Science.cs" />
+    <Compile Include="BehavioralPatterns\ChainOfResponsibility.cs" />
     <Compile Include="BehavioralPatterns\Command.cs" />
     <Compile Include="BehavioralPatterns\Iterator\ArtsIterator.cs" />
     <Compile Include="BehavioralPatterns\Iterator\IIterator.cs" />
