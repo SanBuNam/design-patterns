@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdditionalPatterns\NullObject.cs" />
     <Compile Include="AdditionalPatterns\SimpleFactory.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\Arts.cs" />
     <Compile Include="BehavioralPatterns\Aggregate\ISubjects.cs" />
